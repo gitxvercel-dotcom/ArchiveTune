@@ -51,7 +51,8 @@ import moe.rukamori.archivetune.constants.AppFontPreference
 import kotlin.math.abs
 import kotlin.math.min
 
-val DefaultThemeColor = Color(0xFFED5564)
+// Aurora Music brand color: a cool twilight violet that stays vivid in both light and dark themes.
+val DefaultThemeColor = Color(0xFF6C63FF)
 val LocalArchiveTuneFontPreference = staticCompositionLocalOf { AppFontPreference.DEFAULT }
 val LocalArchiveTuneFontFamily = staticCompositionLocalOf { AppFontFamily }
 

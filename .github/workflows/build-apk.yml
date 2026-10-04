@@ -1,0 +1,58 @@
+name: Build Aurora Music APK
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-apk-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build FOSS universal debug APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Make Gradle executable
+        run: chmod +x ./gradlew
+
+      - name: Build Aurora Music APK
+        run: ./gradlew --no-daemon assembleFossMobileUniversalDebug
+
+      - name: Rename APK for download
+        shell: bash
+        run: |
+          set -euo pipefail
+          apk="$(find app/build/outputs/apk -type f -name '*.apk' | head -n 1)"
+          test -n "$apk"
+          mkdir -p artifacts
+          cp "$apk" "artifacts/aurora-music-debug-${GITHUB_SHA::7}.apk"
+
+      - name: Upload Aurora Music APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: aurora-music-apk-${{ github.sha }}
+          path: artifacts/aurora-music-debug-${{ github.sha }}.apk
+          if-no-files-found: error
+          retention-days: 14
