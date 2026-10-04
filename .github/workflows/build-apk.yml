@@ -53,6 +53,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: aurora-music-apk-${{ github.sha }}
+<<<<<<< HEAD
           path: artifacts/aurora-music-arm64-debug-${{ github.sha }}.apk
+=======
+          path: artifacts/aurora-music-arm64-debug-*.apk
+>>>>>>> b8d3b55 (Fix APK artifact upload path)
           if-no-files-found: error
           retention-days: 14
