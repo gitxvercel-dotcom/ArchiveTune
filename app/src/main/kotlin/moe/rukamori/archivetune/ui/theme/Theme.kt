@@ -85,8 +85,9 @@ fun ArchiveTuneTheme(
     content: @Composable () -> Unit,
 ) {
     val context = LocalContext.current
-    val useSystemDynamicColor =
-        (seedPalette == null && themeColor == DefaultThemeColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+    // Aurora Music owns its visual identity; do not replace it with the device wallpaper palette.
+    // This keeps the app recognisable across phones and makes the redesigned UI consistent.
+    val useSystemDynamicColor = false
 
     val customFontFamily =
         produceState<FontFamily?>(
@@ -170,16 +171,16 @@ fun ArchiveTuneTheme(
             Shapes(
                 extraSmall =
                     androidx.compose.foundation.shape
-                        .RoundedCornerShape(8.dp),
+                        .RoundedCornerShape(12.dp),
                 small =
                     androidx.compose.foundation.shape
-                        .RoundedCornerShape(12.dp),
+                        .RoundedCornerShape(18.dp),
                 medium =
                     androidx.compose.foundation.shape
-                        .RoundedCornerShape(16.dp),
+                        .RoundedCornerShape(24.dp),
                 large =
                     androidx.compose.foundation.shape
-                        .RoundedCornerShape(24.dp),
+                        .RoundedCornerShape(32.dp),
                 extraLarge =
                     androidx.compose.foundation.shape
                         .RoundedCornerShape(32.dp),

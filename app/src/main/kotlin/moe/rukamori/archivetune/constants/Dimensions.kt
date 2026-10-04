@@ -19,10 +19,11 @@ const val CONTENT_TYPE_ARTIST = 3
 const val CONTENT_TYPE_ALBUM = 4
 const val CONTENT_TYPE_PLAYLIST = 5
 
-val NavigationBarHorizontalPadding = 12.dp
-val NavigationBarBottomPadding = 10.dp
-val NavigationBarMaxWidth = 420.dp
-val NavigationBarHeight = 78.dp
+// Aurora Music uses a roomier floating dock rather than the stock compact navigation bar.
+val NavigationBarHorizontalPadding = 18.dp
+val NavigationBarBottomPadding = 14.dp
+val NavigationBarMaxWidth = 520.dp
+val NavigationBarHeight = 86.dp
 val MiniPlayerHeight = 70.dp
 val MiniPlayerBottomSpacing = 4.dp
 val FloatingBarStandaloneCornerRadius = 32.dp
