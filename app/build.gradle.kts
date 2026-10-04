@@ -67,7 +67,8 @@ android {
     applicationId = "moe.rukamori.archivetune"
         minSdk = 26
         targetSdk = 37
-        versionCode = 142
+        // Keep this higher than every published build so Android treats upgrades as in-place updates.
+        versionCode = 143
         versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
