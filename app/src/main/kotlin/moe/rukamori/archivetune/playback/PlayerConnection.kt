@@ -110,6 +110,7 @@ class PlayerConnection(
     private var metadataExtractionJob: Job? = null
 
     init {
+        service.registerPlayerConnection(this)
         player.addListener(this)
 
         playbackState.value = player.playbackState
@@ -402,7 +403,14 @@ class PlayerConnection(
         }
     }
 
+    internal fun disposeFromService() {
+        player.removeListener(this)
+        metadataExtractionJob?.cancel()
+        metadataExtractionJob = null
+    }
+
     fun dispose() {
+        service.unregisterPlayerConnection(this)
         player.removeListener(this)
         metadataExtractionJob?.cancel()
         metadataExtractionJob = null

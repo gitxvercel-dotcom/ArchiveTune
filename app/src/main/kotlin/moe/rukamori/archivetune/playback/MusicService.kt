@@ -326,6 +326,23 @@ class MusicService :
 
     private var playbackPreloadConfiguration: PlaybackPreloadConfiguration? = null
 
+    // Connections are Activity-owned listeners. Release them when the service dies so ExoPlayer
+    // cannot retain a destroyed Activity through its listener set.
+    private val playerConnections = mutableSetOf<PlayerConnection>()
+
+    internal fun registerPlayerConnection(connection: PlayerConnection) {
+        synchronized(playerConnections) { playerConnections += connection }
+    }
+
+    internal fun unregisterPlayerConnection(connection: PlayerConnection) {
+        synchronized(playerConnections) { playerConnections -= connection }
+    }
+
+    private fun disposePlayerConnections() {
+        val connections = synchronized(playerConnections) { playerConnections.toList().also { playerConnections.clear() } }
+        connections.forEach { it.disposeFromService() }
+    }
+
     private lateinit var audioManager: AudioManager
     private var audioFocusRequest: AudioFocusRequest? = null
     private var lastAudioFocusState = AudioManager.AUDIOFOCUS_NONE
@@ -8395,6 +8412,8 @@ class MusicService :
             if (wakeLock?.isHeld == true) wakeLock?.release()
         } catch (_: Exception) {
         }
+        // Detach Activity-owned PlayerConnection listeners before releasing ExoPlayer.
+        disposePlayerConnections()
         try {
             localPlayer.removeListener(audioEffectPlayerListener)
             player.removeListener(this)
