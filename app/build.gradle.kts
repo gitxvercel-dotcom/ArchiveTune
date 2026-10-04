@@ -67,8 +67,9 @@ android {
     applicationId = "moe.rukamori.archivetune"
         minSdk = 26
         targetSdk = 37
-        versionCode = 142
-        versionName = "15.1.0"
+        // Keep this higher than every published build so Android treats upgrades as in-place updates.
+        versionCode = 143
+        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -109,7 +110,7 @@ android {
             versionName = nightlyVersionName
         }
         buildConfigField("String", "DISTRIBUTION", "\"gms\"")
-        buildConfigField("boolean", "UPDATER_AVAILABLE", "true")
+        buildConfigField("boolean", "UPDATER_AVAILABLE", "false")
 
         val githubOwner =
             System.getenv("GITHUB_OWNER")?.trim()
@@ -141,7 +142,7 @@ android {
             dimension = "distribution"
             isDefault = true
             buildConfigField("String", "DISTRIBUTION", "\"gms\"")
-            buildConfigField("boolean", "UPDATER_AVAILABLE", "true")
+            buildConfigField("boolean", "UPDATER_AVAILABLE", "false")
             buildConfigField("String", "DISCORD_APPLICATION_ID", "\"$discordApplicationId\"")
             buildConfigField("long", "DISCORD_APPLICATION_ID_LONG", "${discordApplicationIdLong}L")
             buildConfigField("String", "DISCORD_REDIRECT_SCHEME", "\"$discordRedirectScheme\"")
@@ -150,7 +151,7 @@ android {
         create("foss") {
             dimension = "distribution"
             buildConfigField("String", "DISTRIBUTION", "\"foss\"")
-            buildConfigField("boolean", "UPDATER_AVAILABLE", "true")
+            buildConfigField("boolean", "UPDATER_AVAILABLE", "false")
             buildConfigField("String", "DISCORD_APPLICATION_ID", "\"$discordApplicationId\"")
             buildConfigField("long", "DISCORD_APPLICATION_ID_LONG", "${discordApplicationIdLong}L")
             buildConfigField("String", "DISCORD_REDIRECT_SCHEME", "\"$discordRedirectScheme\"")
