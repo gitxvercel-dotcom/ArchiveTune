@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   build:
-    name: Build FOSS universal debug APK
+    name: Build FOSS arm64 debug APK
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
@@ -38,7 +38,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build Aurora Music APK
-        run: ./gradlew --no-daemon assembleFossMobileUniversalDebug
+        run: ./gradlew --no-daemon assembleFossMobileArm64Debug
 
       - name: Rename APK for download
         shell: bash
@@ -47,12 +47,12 @@ jobs:
           apk="$(find app/build/outputs/apk -type f -name '*.apk' | head -n 1)"
           test -n "$apk"
           mkdir -p artifacts
-          cp "$apk" "artifacts/aurora-music-debug-${GITHUB_SHA::7}.apk"
+          cp "$apk" "artifacts/aurora-music-arm64-debug-${GITHUB_SHA::7}.apk"
 
       - name: Upload Aurora Music APK
         uses: actions/upload-artifact@v4
         with:
           name: aurora-music-apk-${{ github.sha }}
-          path: artifacts/aurora-music-debug-${{ github.sha }}.apk
+          path: artifacts/aurora-music-arm64-debug-${{ github.sha }}.apk
           if-no-files-found: error
           retention-days: 14
